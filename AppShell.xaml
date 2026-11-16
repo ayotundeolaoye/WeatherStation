@@ -7,9 +7,27 @@
     Shell.FlyoutBehavior="Disabled"
     Title="WeatherStation">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- A TabBar shows a button for each page so the user can switch between them -->
+    <TabBar>
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+
+        <ShellContent
+            Title="Compare"
+            ContentTemplate="{DataTemplate local:ComparePage}"
+            Route="ComparePage" />
+
+        <ShellContent
+            Title="Planner"
+            ContentTemplate="{DataTemplate local:PlannerPage}"
+            Route="PlannerPage" />
+
+        <ShellContent
+            Title="Settings"
+            ContentTemplate="{DataTemplate local:SettingsPage}"
+            Route="SettingsPage" />
+    </TabBar>
 
 </Shell>
