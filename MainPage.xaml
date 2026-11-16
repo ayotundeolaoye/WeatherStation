@@ -4,7 +4,7 @@
              xmlns:models="clr-namespace:WeatherStation.Models"
              x:Class="WeatherStation.MainPage">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*"
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
           Padding="30,10"
           RowSpacing="15">
 
@@ -27,23 +27,30 @@
                Style="{StaticResource SubHeadline}" />
 
         <Label Grid.Row="4"
+               x:Name="ConditionLabel"
+               Text=""
+               FontSize="22"
+               HorizontalOptions="Center" />
+
+        <Label Grid.Row="5"
                x:Name="WindLabel"
                Text=""
                HorizontalOptions="Center" />
 
-        <Label Grid.Row="5"
+        <Label Grid.Row="6"
                x:Name="ForecastTitleLabel"
                Text=""
                FontAttributes="Bold" />
 
-        <CollectionView Grid.Row="6" x:Name="ForecastList">
+        <CollectionView Grid.Row="7" x:Name="ForecastList">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ForecastDay">
-                    <Grid ColumnDefinitions="*,*,*,*" Padding="5,8">
+                    <Grid ColumnDefinitions="*,*,*,*,*" Padding="5,8">
                         <Label Grid.Column="0" Text="{Binding Date}" FontAttributes="Bold" />
-                        <Label Grid.Column="1" Text="{Binding High}" />
-                        <Label Grid.Column="2" Text="{Binding Low}" />
-                        <Label Grid.Column="3" Text="{Binding Rain}" />
+                        <Label Grid.Column="1" Text="{Binding Icon}" FontSize="20" />
+                        <Label Grid.Column="2" Text="{Binding High}" />
+                        <Label Grid.Column="3" Text="{Binding Low}" />
+                        <Label Grid.Column="4" Text="{Binding Rain}" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

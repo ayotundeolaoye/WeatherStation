@@ -5,5 +5,6 @@ namespace WeatherStation.Models
     {
         public double? temperature_2m { get; set; }
         public double? wind_speed_10m { get; set; }
+        public int? weather_code { get; set; }
     }
 }

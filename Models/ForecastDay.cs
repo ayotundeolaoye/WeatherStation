@@ -4,6 +4,7 @@ namespace WeatherStation.Models
     public class ForecastDay
     {
         public string Date { get; set; } = "";
+        public string Icon { get; set; } = "";
         public string High { get; set; } = "";
         public string Low { get; set; } = "";
         public string Rain { get; set; } = "";

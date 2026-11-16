@@ -40,6 +40,7 @@ namespace WeatherStation
             Place selectedPlace = _places[PlacePicker.SelectedIndex];
 
             TemperatureLabel.Text = "Loading...";
+            ConditionLabel.Text = "";
             WindLabel.Text = "";
             ForecastTitleLabel.Text = "";
             ForecastList.ItemsSource = null;
@@ -56,12 +57,17 @@ namespace WeatherStation
             TemperatureLabel.Text = selectedPlace.Name + ": " + weather.current.temperature_2m + " °C";
             WindLabel.Text = "Wind: " + weather.current.wind_speed_10m + " km/h";
 
+            // Turn the weather code number into an icon and words
+            int? code = weather.current.weather_code;
+            ConditionLabel.Text = WeatherCodes.GetIcon(code) + " " + WeatherCodes.GetDescription(code);
+
             // Show a message if the forecast part is missing
             if (weather.daily == null
                 || weather.daily.time == null
                 || weather.daily.temperature_2m_max == null
                 || weather.daily.temperature_2m_min == null
-                || weather.daily.precipitation_probability_max == null)
+                || weather.daily.precipitation_probability_max == null
+                || weather.daily.weather_code == null)
             {
                 ForecastTitleLabel.Text = "No forecast available.";
                 return;
@@ -74,6 +80,7 @@ namespace WeatherStation
             {
                 ForecastDay day = new ForecastDay();
                 day.Date = weather.daily.time[i];
+                day.Icon = WeatherCodes.GetIcon(weather.daily.weather_code[i]);
                 day.High = "High " + weather.daily.temperature_2m_max[i] + " °C";
                 day.Low = "Low " + weather.daily.temperature_2m_min[i] + " °C";
                 day.Rain = "Rain " + weather.daily.precipitation_probability_max[i] + "%";

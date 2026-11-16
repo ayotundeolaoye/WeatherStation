@@ -8,5 +8,6 @@ namespace WeatherStation.Models
         public List<double?>? temperature_2m_max { get; set; }
         public List<double?>? temperature_2m_min { get; set; }
         public List<double?>? precipitation_probability_max { get; set; }
+        public List<int?>? weather_code { get; set; }
     }
 }
