@@ -42,17 +42,23 @@ namespace WeatherStation
             TemperatureLabel.Text = "Loading...";
             ConditionLabel.Text = "";
             WindLabel.Text = "";
+            UpdatedLabel.Text = "";
             ForecastTitleLabel.Text = "";
             ForecastList.ItemsSource = null;
 
-            WeatherResponse? weather = await _weatherService.GetWeatherAsync(selectedPlace.Latitude, selectedPlace.Longitude);
+            CachedWeather? result = await _weatherService.GetWeatherAsync(selectedPlace);
 
             // Show a message if we got nothing back
-            if (weather == null || weather.current == null)
+            if (result == null || result.Weather == null || result.Weather.current == null)
             {
                 TemperatureLabel.Text = "Couldn't get the weather. Check your internet.";
                 return;
             }
+
+            WeatherResponse weather = result.Weather;
+
+            // Show when this weather was downloaded
+            UpdatedLabel.Text = "Updated " + result.SavedAt.ToString("dd/MM HH:mm");
 
             TemperatureLabel.Text = selectedPlace.Name + ": " + weather.current.temperature_2m + " °C";
             WindLabel.Text = "Wind: " + weather.current.wind_speed_10m + " km/h";

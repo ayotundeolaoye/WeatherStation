@@ -4,7 +4,7 @@
              xmlns:models="clr-namespace:WeatherStation.Models"
              x:Class="WeatherStation.MainPage">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
           Padding="30,10"
           RowSpacing="15">
 
@@ -38,11 +38,18 @@
                HorizontalOptions="Center" />
 
         <Label Grid.Row="6"
+               x:Name="UpdatedLabel"
+               Text=""
+               FontSize="12"
+               TextColor="Gray"
+               HorizontalOptions="Center" />
+
+        <Label Grid.Row="7"
                x:Name="ForecastTitleLabel"
                Text=""
                FontAttributes="Bold" />
 
-        <CollectionView Grid.Row="7" x:Name="ForecastList">
+        <CollectionView Grid.Row="8" x:Name="ForecastList">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ForecastDay">
                     <Grid ColumnDefinitions="*,*,*,*,*" Padding="5,8">
