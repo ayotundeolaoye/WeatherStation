@@ -26,6 +26,10 @@
                 Text=""
                 HorizontalOptions="Center" />
 
+            <Label
+                x:Name="ForecastLabel"
+                Text="" />
+
             <Button
                 x:Name="GetWeatherBtn"
                 Text="Get weather"

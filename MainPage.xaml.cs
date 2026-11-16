@@ -41,6 +41,7 @@ namespace WeatherStation
 
             TemperatureLabel.Text = "Loading...";
             WindLabel.Text = "";
+            ForecastLabel.Text = "";
 
             WeatherResponse? weather = await _weatherService.GetWeatherAsync(selectedPlace.Latitude, selectedPlace.Longitude);
 
@@ -53,6 +54,32 @@ namespace WeatherStation
 
             TemperatureLabel.Text = selectedPlace.Name + ": " + weather.current.temperature_2m + " °C";
             WindLabel.Text = "Wind: " + weather.current.wind_speed_10m + " km/h";
+
+            // Show a message if the forecast part is missing
+            if (weather.daily == null
+                || weather.daily.time == null
+                || weather.daily.temperature_2m_max == null
+                || weather.daily.temperature_2m_min == null
+                || weather.daily.precipitation_probability_max == null)
+            {
+                ForecastLabel.Text = "No forecast available.";
+                return;
+            }
+
+            // Build one line of text for each day
+            string forecastText = "";
+
+            for (int i = 0; i < weather.daily.time.Count; i++)
+            {
+                forecastText = forecastText
+                    + weather.daily.time[i]
+                    + "   High " + weather.daily.temperature_2m_max[i] + " °C"
+                    + "   Low " + weather.daily.temperature_2m_min[i] + " °C"
+                    + "   Rain " + weather.daily.precipitation_probability_max[i] + "%"
+                    + "\n";
+            }
+
+            ForecastLabel.Text = forecastText;
         }
     }
 }
