@@ -41,7 +41,8 @@ namespace WeatherStation
 
             TemperatureLabel.Text = "Loading...";
             WindLabel.Text = "";
-            ForecastLabel.Text = "";
+            ForecastTitleLabel.Text = "";
+            ForecastList.ItemsSource = null;
 
             WeatherResponse? weather = await _weatherService.GetWeatherAsync(selectedPlace.Latitude, selectedPlace.Longitude);
 
@@ -62,24 +63,26 @@ namespace WeatherStation
                 || weather.daily.temperature_2m_min == null
                 || weather.daily.precipitation_probability_max == null)
             {
-                ForecastLabel.Text = "No forecast available.";
+                ForecastTitleLabel.Text = "No forecast available.";
                 return;
             }
 
-            // Build one line of text for each day
-            string forecastText = "";
+            // Make one ForecastDay (one row) for each day
+            List<ForecastDay> days = new List<ForecastDay>();
 
             for (int i = 0; i < weather.daily.time.Count; i++)
             {
-                forecastText = forecastText
-                    + weather.daily.time[i]
-                    + "   High " + weather.daily.temperature_2m_max[i] + " °C"
-                    + "   Low " + weather.daily.temperature_2m_min[i] + " °C"
-                    + "   Rain " + weather.daily.precipitation_probability_max[i] + "%"
-                    + "\n";
+                ForecastDay day = new ForecastDay();
+                day.Date = weather.daily.time[i];
+                day.High = "High " + weather.daily.temperature_2m_max[i] + " °C";
+                day.Low = "Low " + weather.daily.temperature_2m_min[i] + " °C";
+                day.Rain = "Rain " + weather.daily.precipitation_probability_max[i] + "%";
+                days.Add(day);
             }
 
-            ForecastLabel.Text = forecastText;
+            // Show the rows in the list on screen
+            ForecastTitleLabel.Text = "Next 7 days";
+            ForecastList.ItemsSource = days;
         }
     }
 }

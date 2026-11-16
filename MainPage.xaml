@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:WeatherStation.Models"
              x:Class="WeatherStation.MainPage">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*"
+          Padding="30,10"
+          RowSpacing="15">
 
-            <Label
-                Text="Weather Station"
-                Style="{StaticResource Headline}" />
+        <Label Grid.Row="0"
+               Text="Weather Station"
+               Style="{StaticResource Headline}" />
 
-            <Picker
+        <Picker Grid.Row="1"
                 x:Name="PlacePicker"
                 Title="Choose a place" />
 
-            <Label
-                x:Name="TemperatureLabel"
-                Text="Press the button to get the weather"
-                Style="{StaticResource SubHeadline}" />
-
-            <Label
-                x:Name="WindLabel"
-                Text=""
-                HorizontalOptions="Center" />
-
-            <Label
-                x:Name="ForecastLabel"
-                Text="" />
-
-            <Button
+        <Button Grid.Row="2"
                 x:Name="GetWeatherBtn"
                 Text="Get weather"
-                Clicked="OnGetWeatherClicked"
-                HorizontalOptions="Fill" />
-        </VerticalStackLayout>
-    </ScrollView>
+                Clicked="OnGetWeatherClicked" />
+
+        <Label Grid.Row="3"
+               x:Name="TemperatureLabel"
+               Text="Press the button to get the weather"
+               Style="{StaticResource SubHeadline}" />
+
+        <Label Grid.Row="4"
+               x:Name="WindLabel"
+               Text=""
+               HorizontalOptions="Center" />
+
+        <Label Grid.Row="5"
+               x:Name="ForecastTitleLabel"
+               Text=""
+               FontAttributes="Bold" />
+
+        <CollectionView Grid.Row="6" x:Name="ForecastList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ForecastDay">
+                    <Grid ColumnDefinitions="*,*,*,*" Padding="5,8">
+                        <Label Grid.Column="0" Text="{Binding Date}" FontAttributes="Bold" />
+                        <Label Grid.Column="1" Text="{Binding High}" />
+                        <Label Grid.Column="2" Text="{Binding Low}" />
+                        <Label Grid.Column="3" Text="{Binding Rain}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 
 </ContentPage>
