@@ -1,4 +1,4 @@
-using System.Net.Http.Json;
+using System.Text.Json;
 using WeatherStation.Models;
 
 namespace WeatherStation.Services
@@ -6,22 +6,28 @@ namespace WeatherStation.Services
     public class WeatherService
     {
         // Used to talk to websites
-        HttpClient client = new HttpClient();
+        private static readonly HttpClient _httpClient = new HttpClient();
 
         public async Task<WeatherResponse?> GetWeatherAsync(double latitude, double longitude)
         {
-            // The web address we ask for the weather
             string url = $"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,wind_speed_10m";
 
             try
             {
-                // Get the JSON and turn it into our classes
-                WeatherResponse? weather = await client.GetFromJsonAsync<WeatherResponse>(url);
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                // The website said no (e.g. bad address)
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                // Read the JSON text, then turn it into our classes
+                string json = await response.Content.ReadAsStringAsync();
+                WeatherResponse? weather = JsonSerializer.Deserialize<WeatherResponse>(json);
                 return weather;
             }
             catch (Exception)
             {
-                // if Something went wrong
+                // Something went wrong (e.g. no internet)
                 return null;
             }
         }
