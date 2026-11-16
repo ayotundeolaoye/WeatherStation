@@ -9,8 +9,12 @@
             Spacing="25">
 
             <Label
-                Text="Galway"
+                Text="Weather Station"
                 Style="{StaticResource Headline}" />
+
+            <Picker
+                x:Name="PlacePicker"
+                Title="Choose a place" />
 
             <Label
                 x:Name="TemperatureLabel"
